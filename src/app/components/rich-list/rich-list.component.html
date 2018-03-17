@@ -1,0 +1,70 @@
+<div class="container">
+    <div class="starter-template">
+        <h1>{{info.pageTitleH1}}</h1>
+        <h2>{{info.pageTitleH2}}</h2>
+        <p class="lead">{{info.description}}</p>
+        <p>Reference: <a href="{{info.referenceLink}}">{{info.referenceLink}}</a></p>
+    </div>
+
+   <div class="jumbotron">
+
+     <div class="row">
+       <div class="col-md-12">
+           <div class="row">
+             <div class="col-sm-6">
+               <div class="form-group">
+                 <label for="birthplace">Birthplace:</label>
+                 <select id="birthplace" class="form-control" [(ngModel)]="selectedBirthPlace">
+                   <option *ngFor="let brithPlace of birthPlaceList" [value]="brithPlace.code">{{brithPlace.description}}</option>
+                 </select>
+               </div>
+             </div>
+
+             <div class="col-sm-6">
+               <div class="form-group">
+                 <label for="currencyType">Currency Converter:</label>
+                 <select id="currencyType" class="form-control" [(ngModel)]="selectedRate" (change)="onChangeCurrency($event)">
+                   <option *ngFor="let currency of currencyList" [value]="currency.code">{{currency.description}}</option>
+                 </select>
+               </div>
+             </div>
+         </div>
+
+         <div class="row">
+           <div class="col-sm-6">
+             <div class="form-group">
+               <label for="searchText">Search:</label>
+               <input id="searchText" class="form-control" [(ngModel)]="searchText">
+             </div>
+           </div>
+
+           <div class="col-sm-6">
+             <div class="form-group">
+               <label for="orderBy">Order By:</label>
+               <select id="orderBy" class="form-control" [(ngModel)]="selectedOrder">
+                 <option *ngFor="let order of orderList" [value]="order.code">{{order.description}}</option>
+               </select>
+             </div>
+           </div>
+         </div>
+
+         <div class="row">
+             <div class="col-sm-12">
+               <div class="card" *ngFor="let celeb of celebrities | orderBy:selectedOrder | currConvert:selectedRate | birthPlaceFilter : selectedBirthPlace | textFilter : searchText; let i = index">
+                 <div class="card-header bg-info text-white text-center">No: {{celeb.rank}}</div>
+                 <div class="card-body">
+                     <div class="celebrity-info">
+                       <p class="text-center">Name: {{celeb.name}}</p>
+                       <p class="text-center">Net Worth: {{celeb.convertedNetWorth | currency:selectedCurrency:'code'}}</p>
+                       <p class="text-center">Age: {{celeb.age}}</p>
+                       <p class="text-center">Country of Birth: {{celeb.country}}</p>
+                     </div>
+                 </div>
+               </div>
+             </div>
+         </div>
+
+       </div>
+     </div>
+   </div>
+</div>
